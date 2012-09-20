@@ -1,7 +1,8 @@
-import System.Environment (getArgs)
+import System.Environment
 import System.Exit
 import System.FilePath
 import System.FilePath.GlobPattern (GlobPattern, (~~))
+import System.IO
 
 import System.OSX.FSEvents
 
@@ -13,21 +14,30 @@ import Data.Bits ((.&.))
 
 main :: IO ()
 main = do
-  args <- getArgs
-  case args of
-    (path:_) -> runWatcher path
-    _        -> usage
+  hSetBuffering stdout NoBuffering
+  getArgs >>= parse >>= runWatcher
+
+parse ::  [String] -> IO FilePath
+parse ["-h"]   = usage >> exitSuccess
+parse []       = return "."
+parse (path:_) = return path
 
 usage :: IO ()
-usage = putStrLn "Usage: hobbes [path]" >> exitSuccess
+usage = putStrLn "Usage: hobbes [path]"
 
 runWatcher :: FilePath -> IO ()
 runWatcher path =
   let (dir, glob) = splitFileName path
   in bracket
        (eventStreamCreate [dir] 1.0 True True True (handleEvent glob))
-       (\es -> putStrLn "Bye Bye!" >> eventStreamDestroy es)
+       (\es -> eventStreamDestroy es >> putStrLn "Bye Bye!")
        (const $ forever getLine)
+
+handleEvent :: GlobPattern -> Event -> IO ()
+handleEvent glob evt = 
+  let fn      = takeFileName $ eventPath evt
+      isMatch = isFileChange evt && fileMatchesGlob glob fn 
+  in when isMatch $ putStrLn fn
 
 fileMatchesGlob :: GlobPattern -> FilePath -> Bool
 fileMatchesGlob glob fp =
@@ -45,9 +55,3 @@ isFileChange evt = not $ hasFlag eventFlagItemRemoved
                                   ]
   where flags = eventFlags evt
         hasFlag f = flags .&. f /= 0
-
-handleEvent :: GlobPattern -> Event -> IO ()
-handleEvent glob evt = 
-  let fn      = takeFileName $ eventPath evt
-      isMatch = isFileChange evt && fileMatchesGlob glob fn 
-  in when isMatch $ putStrLn fn
