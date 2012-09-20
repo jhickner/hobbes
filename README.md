@@ -24,4 +24,4 @@ hobbes "*.html" | xargs -n1 kick
 
 ### Thanks
 
-Hobbes is a very small wrapper around the excellent [hsfevents](https://github.com/luite/hfsevents) haskell library by Luite Stegeman.
+Hobbes is a very small wrapper around the excellent [hfsevents](https://github.com/luite/hfsevents) haskell library by Luite Stegeman.
