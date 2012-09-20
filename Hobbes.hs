@@ -40,11 +40,9 @@ handleEvent glob evt =
   in when isMatch $ putStrLn fn
 
 fileMatchesGlob :: GlobPattern -> FilePath -> Bool
-fileMatchesGlob glob fp =
-  case glob of
-    []  -> True
-    "." -> True
-    _   -> fp ~~ glob
+fileMatchesGlob []   _  = True
+fileMatchesGlob "."  _  = True
+fileMatchesGlob glob fp = fp ~~ glob
 
 isFileChange :: Event -> Bool
 isFileChange evt = not $ hasFlag eventFlagItemRemoved 
