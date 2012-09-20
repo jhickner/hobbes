@@ -13,3 +13,8 @@ hobbes "*.hs" | xargs -n1 ghc --make
 ### Todo
 
 - cabal install hobbes
+
+
+### Thanks
+
+Hobbes is a very small wrapper around the excellent [hsfevents](https://github.com/luite/hfsevents) haskell library by Luite Stegeman.
