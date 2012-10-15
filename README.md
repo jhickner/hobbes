@@ -1,6 +1,8 @@
 Hobbes
 ======
 
+```cabal install hobbes```
+
 Hobbes is a small UNIX-style file watcher for OSX. The filenames of modified files are simply echoed to stdout, one file per line. You take it from there.
 
 Complex tasks can be accomplished by combining ```hobbes``` with other utilities such as ```xargs```, for example:
@@ -15,11 +17,6 @@ Another example: I have a script called ```kick``` that reloads the current tab 
 ```bash
 hobbes "*.html" | xargs -n1 kick
 ```
-
-
-### Todo
-
-- cabal install hobbes
 
 
 ### Thanks
