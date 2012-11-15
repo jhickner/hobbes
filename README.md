@@ -12,6 +12,9 @@ Complex tasks can be accomplished by combining ```hobbes``` with other utilities
 hobbes "*.hs" | xargs -n1 ghc --make
 ```
 
+```xargs -n1 <command>``` means essentially "run the command on each word of input". So ```ghc --make``` is run on each modified file.
+
+
 Another example: I have a script called ```kick``` that reloads the current tab in Chrome and then refocuses iTerm. With this command to ```hobbes``` I get automatic browser reloading on every save. Script [here](https://gist.github.com/4081943) if you're interested.
 
 ```bash
