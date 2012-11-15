@@ -1,3 +1,4 @@
 hobbes
 *.o
 *.hi
+dist
