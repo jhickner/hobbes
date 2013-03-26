@@ -39,7 +39,7 @@ handleEvent :: GlobPattern -> Event -> IO ()
 handleEvent glob evt = 
   let fn      = takeFileName $ eventPath evt
       isMatch = isFileChange evt && fileMatchesGlob glob fn 
-  in when isMatch $ putStrLn fn
+  in when isMatch $ putStrLn $ eventPath evt
 
 fileMatchesGlob :: GlobPattern -> FilePath -> Bool
 fileMatchesGlob []   _  = True
