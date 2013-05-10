@@ -10,7 +10,7 @@ import System.OSX.FSEvents
 
 import Control.Monad (forever, when)
 import Control.Exception (bracket)
-import Control.Concurrent (yield)
+import Control.Concurrent (threadDelay)
 
 import Data.Bits ((.&.))
 
@@ -33,8 +33,8 @@ runWatcher path =
   let (dir, glob) = splitFileName path
   in bracket
        (eventStreamCreate [dir] 1.0 True True True (handleEvent glob))
-       (\es -> eventStreamDestroy es >> hPutStrLn stderr "Bye Bye!")
-       (const $ forever yield)
+       (\es -> eventStreamDestroy es >> hPutStrLn stderr "Bye!")
+       (const $ forever $ threadDelay 1000000)
 
 handleEvent :: GlobPattern -> Event -> IO ()
 handleEvent glob evt = 
