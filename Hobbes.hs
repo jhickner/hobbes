@@ -6,12 +6,14 @@ import System.FilePath
 import System.FilePath.GlobPattern (GlobPattern, (~~))
 import System.IO
 
-import System.OSX.FSEvents
+import Filesystem.Path.CurrentOS (fromText, encodeString)
 
-import Control.Monad (forever, when)
-import Control.Exception (bracket)
+import System.FSNotify
+
+import Control.Monad (forever)
 import Control.Concurrent (threadDelay)
 
+import Data.Text (pack)
 import Data.Bits ((.&.))
 
 
@@ -31,28 +33,21 @@ usage = putStrLn "Usage: hobbes [path]"
 runWatcher :: FilePath -> IO ()
 runWatcher path =
   let (dir, glob) = splitFileName path
-  in bracket
-       (eventStreamCreate [dir] 1.0 True True True (handleEvent glob))
-       (\es -> eventStreamDestroy es >> hPutStrLn stderr "Bye!")
-       (const $ forever $ threadDelay 1000000)
+  in withManager $ \m -> do
+       watchTree m (fromText $ pack dir) (globModified glob) printPath
+       forever $ threadDelay 1000000
 
-handleEvent :: GlobPattern -> Event -> IO ()
-handleEvent glob evt = 
-  let fn      = takeFileName $ eventPath evt
-      isMatch = isFileChange evt && fileMatchesGlob glob fn 
-  in when isMatch $ putStrLn $ eventPath evt
+globModified :: GlobPattern -> Event -> Bool
+globModified glob evt@(Modified _ _) = matchesGlob glob evt
+globModified _ _ = False
+
+matchesGlob :: GlobPattern -> Event -> Bool
+matchesGlob glob = fileMatchesGlob glob . takeFileName . encodeString . eventPath
+
+printPath :: Event -> IO ()
+printPath = putStrLn . encodeString . eventPath 
 
 fileMatchesGlob :: GlobPattern -> FilePath -> Bool
 fileMatchesGlob []   _  = True
 fileMatchesGlob "."  _  = True
 fileMatchesGlob glob fp = fp ~~ glob
-
-isFileChange :: Event -> Bool
-isFileChange evt = not $ hasFlag eventFlagItemRemoved 
-                   && hasFlag eventFlagItemIsFile 
-                   && any hasFlag [ eventFlagItemModified
-                                  , eventFlagItemRenamed
-                                  , eventFlagItemCreated
-                                  ]
-  where flags = eventFlags evt
-        hasFlag f = flags .&. f /= 0
