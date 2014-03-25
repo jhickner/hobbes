@@ -32,4 +32,4 @@ then install hobbes with:
 
 ### Thanks
 
-Hobbes is a very small wrapper around the excellent [hfsevents](https://github.com/luite/hfsevents) haskell library by Luite Stegeman.
+Hobbes is a very small wrapper around fsnotify.
