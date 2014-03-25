@@ -38,8 +38,9 @@ runWatcher path =
        forever $ threadDelay 1000000
 
 globModified :: GlobPattern -> Event -> Bool
+globModified glob evt@(Added _ _)    = matchesGlob glob evt
 globModified glob evt@(Modified _ _) = matchesGlob glob evt
-globModified _ _ = False
+globModified _ (Removed _ _)     = False
 
 matchesGlob :: GlobPattern -> Event -> Bool
 matchesGlob glob = fileMatchesGlob glob . takeFileName . encodeString . eventPath
