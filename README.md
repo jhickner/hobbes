@@ -1,7 +1,7 @@
 Hobbes
 ======
 
-Hobbes is a small UNIX-style file watcher for OSX, written after experiencing some OSX bugs with my usual standby [guard](https://github.com/guard/guard). The filenames of modified files are simply echoed to stdout, one file per line. You take it from there.
+Hobbes is a small UNIX-style file watcher for ~~OSX~~ windows, linux and OSX (thanks @cgag), written after experiencing some OSX bugs with my usual standby [guard](https://github.com/guard/guard). The filenames of modified files are simply echoed to stdout, one file per line. You take it from there.
 
 Complex tasks can be accomplished by combining ```hobbes``` with other commands such as ```xargs```, for example:
 
