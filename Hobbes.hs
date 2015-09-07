@@ -34,19 +34,19 @@ runWatcher :: FilePath -> IO ()
 runWatcher path =
   let (dir, glob) = splitFileName path
   in withManager $ \m -> do
-       watchTree m (fromText $ pack dir) (globModified glob) printPath
+       watchTree m dir (globModified glob) printPath
        forever $ threadDelay 1000000
 
 globModified :: GlobPattern -> Event -> Bool
 globModified glob evt@(Added _ _)    = matchesGlob glob evt
 globModified glob evt@(Modified _ _) = matchesGlob glob evt
-globModified _ (Removed _ _)     = False
+globModified _ 		(Removed _ _) 		 = False
 
 matchesGlob :: GlobPattern -> Event -> Bool
-matchesGlob glob = fileMatchesGlob glob . takeFileName . encodeString . eventPath
+matchesGlob glob = fileMatchesGlob glob . takeFileName .  eventPath
 
 printPath :: Event -> IO ()
-printPath = putStrLn . encodeString . eventPath 
+printPath = putStrLn . eventPath 
 
 fileMatchesGlob :: GlobPattern -> FilePath -> Bool
 fileMatchesGlob []   _  = True
