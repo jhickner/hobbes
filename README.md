@@ -31,6 +31,15 @@ then install hobbes with:
 
 ```cabal install hobbes```
 
+### Installation with Stack
+
+Hobbes can be installed from sources with [stack](https://github.com/commercialhaskell/stack):
+
+```shell
+$ git clone https://github.com/jhickner/hobbes.git
+$ cd hobbes
+$ stack install
+```
 
 ### Thanks
 
