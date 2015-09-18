@@ -1,0 +1,7 @@
+flags: {}
+packages:
+    - '.'
+extra-deps: []
+resolver: lts-3.2
+ghc-options:
+    "*": -static -optl-static -optl-pthread
