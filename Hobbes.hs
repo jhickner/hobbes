@@ -8,7 +8,7 @@ import System.IO (hSetBuffering, BufferMode(NoBuffering), stdout)
 
 import System.FSNotify
 
-import Control.Monad (forever)
+import Control.Monad (forever, void)
 import Control.Concurrent (threadDelay)
 
 
@@ -29,7 +29,7 @@ runWatcher :: FilePath -> IO ()
 runWatcher path =
   let (dir, glob) = splitFileName path
   in withManager $ \m -> do
-       watchTree m dir (globModified glob) printPath
+       void $ watchTree m dir (globModified glob) printPath
        forever $ threadDelay 1000000
 
 globModified :: GlobPattern -> Event -> Bool
@@ -41,7 +41,7 @@ matchesGlob :: GlobPattern -> Event -> Bool
 matchesGlob glob = fileMatchesGlob glob . takeFileName .  eventPath
 
 printPath :: Event -> IO ()
-printPath = putStrLn . eventPath 
+printPath = putStrLn . eventPath
 
 fileMatchesGlob :: GlobPattern -> FilePath -> Bool
 fileMatchesGlob []   _  = True
