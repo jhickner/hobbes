@@ -18,9 +18,10 @@ main = do
   getArgs >>= parse >>= runWatcher
 
 parse ::  [String] -> IO FilePath
-parse ["-h"]   = usage >> exitSuccess
-parse []       = return "."
-parse (path:_) = return path
+parse ["-h"]     = usage >> exitSuccess
+parse ["--help"] = usage >> exitSuccess
+parse []         = return "."
+parse (path:_)   = return path
 
 usage :: IO ()
 usage = putStrLn "Usage: hobbes [path]"
