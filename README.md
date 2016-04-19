@@ -26,16 +26,6 @@ hobbes "*.html" | xargs -n1 kick
 hobbes "*.elm" | xargs -n1 sh -c 'cmd1; cmd2; ...'
 ```
 
-### Installation
-
-First install haskell via your system's package manager. On OSX it's as simple as:
-
-```brew install haskell-platform```
-
-then install hobbes with:
-
-```cabal install hobbes```
-
 ### Installation with Stack
 
 Hobbes can be installed from sources with [stack](https://github.com/commercialhaskell/stack):
