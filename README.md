@@ -21,6 +21,11 @@ Another example: I have a script called ```kick``` that reloads the current tab 
 hobbes "*.html" | xargs -n1 kick
 ```
 
+```bash
+# running multiple commands when files change
+hobbes "*.elm" | xargs -n1 sh -c 'cmd1; cmd2; ...'
+```
+
 ### Installation
 
 First install haskell via your system's package manager. On OSX it's as simple as:
