@@ -1,5 +1,5 @@
 name:                hobbes
-version:             0.2.2
+version:             0.3.0
 synopsis:            A small file watcher for OSX
 -- description:
 homepage:            http://github.com/jhickner/hobbes
