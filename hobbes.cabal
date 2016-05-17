@@ -1,5 +1,5 @@
 name:                hobbes
-version:             0.2.2
+version:             0.3.0
 synopsis:            A small file watcher for OSX
 -- description:
 homepage:            http://github.com/jhickner/hobbes
@@ -19,4 +19,5 @@ executable hobbes
                        filepath ==1.4.*,
                        filemanip ==0.3.*,
                        fsnotify >= 0.0.11,
-                       text >= 1.1.0.1
+                       text >= 1.1.0.1,
+                       optparse-applicative >= 0.12

@@ -2,6 +2,6 @@ flags: {}
 packages:
     - '.'
 extra-deps: []
-resolver: lts-3.2
+resolver: lts-5.13
 ghc-options:
-    "*": -static -optl-static -optl-pthread
+    hobbes: -static -optl-static -optl-pthread
